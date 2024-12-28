@@ -22,6 +22,7 @@ model User {
   accounts     Account[]
   listrings    Listing[]
   reservations Reservation[]
+  payments       Payment[] 
 }
 
 model Account {
@@ -87,6 +88,19 @@ model Reservation {
 
   listingId String  @db.ObjectId
   listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model Payment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount     Int
+  currency   String
+  source     String
+  description String
+  status     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
